@@ -1,6 +1,5 @@
-using BuildingBlocks.Behaviors;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +12,7 @@ services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assemly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    //config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 services.AddValidatorsFromAssembly(assemly);
@@ -26,35 +26,24 @@ services.AddMarten(options =>
     options.Connection(connectionString!);
 }).UseLightweightSessions();
 
+if (builder.Environment.IsDevelopment())
+    services.InitializeMartenWith<CatalogInitialData>();
+
+services.AddExceptionHandler<CustomExceptionHandler>();
+
+services.AddHealthChecks()
+    .AddNpgSql(connectionString!);
+
 var app = builder.Build();
 
 // Configure the Http request pipeline
 app.MapCarter();
 
-app.UseExceptionHandler(exceptionHandlerApp =>
+app.UseExceptionHandler(options => { });
+
+app.UseHealthChecks("/health", new HealthCheckOptions
 {
-    exceptionHandlerApp.Run(async context =>
-    {
-        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-
-        if (exception == null)
-            return;
-
-        var problemDetails = new ProblemDetails
-        {
-            Title = exception.Message,
-            Status = StatusCodes.Status500InternalServerError,
-            Detail = exception.StackTrace
-        };
-
-        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-        logger.LogError(exception, exception.Message);
-
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = "application/problem+json";
-
-        await context.Response.WriteAsJsonAsync(problemDetails);
-    });
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
 app.Run();
