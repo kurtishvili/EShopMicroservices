@@ -12,7 +12,7 @@ services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assemly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
-    //config.AddOpenBehavior(typeof(LoggingBehavior<,>));
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 services.AddValidatorsFromAssembly(assemly);

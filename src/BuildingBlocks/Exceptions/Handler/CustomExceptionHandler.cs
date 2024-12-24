@@ -32,7 +32,7 @@ namespace BuildingBlocks.Exceptions.Handler
                    exception.GetType().Name,
                    context.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
-                NotFoundExceptions =>
+                NotFoundException =>
                 (
                    exception.Message,
                    exception.GetType().Name,
