@@ -23,11 +23,11 @@ message CouponModel {
 }
 
 message CreateDiscountRequest {
-	string coupon = 1;
+	CouponModel coupon = 1;
 }
 
 message UpdateDiscountRequest {
-	string coupon = 1;
+	CouponModel coupon = 1;
 }
 
 message DeleteDiscountRequest {
