@@ -9,10 +9,10 @@ services:
       - POSTGRES_DB=CatalogDb
     restart: always
     ports:
-      - "5432:5432"
+        - "5432:5432"
     volumes:
-      - postgres_catalog:/var/lib/postgresql/data/
-
+      - postgres_catalog:/var/lib/postgresql/data/ 
+      
   basketdb:
     container_name: basketdb
     environment:
@@ -21,15 +21,24 @@ services:
       - POSTGRES_DB=BasketDb
     restart: always
     ports:
-      - "5433:5432"
+        - "5433:5432"
     volumes:
-      - postgres_basket:/var/lib/postgresql/data/
-  
-  distributedCache:
+      - postgres_basket:/var/lib/postgresql/data/ 
+
+  distributedcache:
     container_name: distributedcache
     restart: always
     ports:
-      - "6379:6379" 
+      - "6379:6379"
+
+  orderdb:
+    container_name: orderdb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SwN12345678
+    restart: always
+    ports:
+      - "1433:1433"
 
   catalog.api:
     environment:
@@ -56,8 +65,8 @@ services:
       - GrpcSettings__DiscountUrl=https://discount.grpc:8081
     depends_on:
       - basketdb
-      - distributedCache
-      - discount.grpc   
+      - distributedcache
+      - discount.grpc
     ports:
       - "6001:8080"
       - "6061:8081"

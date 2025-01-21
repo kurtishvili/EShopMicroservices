@@ -13,4 +13,6 @@ builder.Services
 
 var app = builder.Build();
 
+// Configure the Http request pipeline
+
 app.Run();

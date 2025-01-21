@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ordering.Domain.Models;
 using Ordering.Domain.Models.ValueObjects;
 
@@ -15,7 +14,5 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.Name).HasMaxLength(100).IsRequired();
 
         builder.Property(c => c.Email).HasMaxLength(255);
-
-        builder.Property(c => c.Email).IsUnique();
     }
 }

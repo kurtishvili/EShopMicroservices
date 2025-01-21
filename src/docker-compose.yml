@@ -1,12 +1,17 @@
+version: '3.9'
+
 services:
   catalogdb:
-   image: postgres
+    image: postgres
 
   basketdb:
-   image: postgres
+    image: postgres
 
-  distributedCache:
-   image: redis
+  distributedcache:
+    image: redis
+
+  orderdb:
+    image: mcr.microsoft.com/mssql/server
 
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
@@ -29,6 +34,3 @@ services:
 volumes:
   postgres_catalog:
   postgres_basket:
-
-
-
