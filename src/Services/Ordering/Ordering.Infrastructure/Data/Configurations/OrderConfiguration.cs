@@ -104,7 +104,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             paymentBuilder.Property(p => p.PaymentMethod);
         });
 
-        builder.Property(o => o.OrderStatus)
+        builder.Property(o => o.Status)
             .HasDefaultValue(OrderStatus.Draft)
             .HasConversion(s => s.ToString(), dbStatus => (OrderStatus)Enum.Parse(typeof(OrderStatus), dbStatus));
 

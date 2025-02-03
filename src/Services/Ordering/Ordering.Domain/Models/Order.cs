@@ -16,7 +16,7 @@ public class Order : Aggregate<OrderId>
 
     public Payment Payment { get; private set; } = default!;
 
-    public OrderStatus OrderStatus { get; private set; } = OrderStatus.Pending;
+    public OrderStatus Status { get; private set; } = OrderStatus.Pending;
 
     public decimal TotalPrice
     {
@@ -34,7 +34,7 @@ public class Order : Aggregate<OrderId>
             ShippingAddress = shippingAddress,
             BillingAddress = billingAddress,
             Payment = payment,
-            OrderStatus = OrderStatus.Pending
+            Status = OrderStatus.Pending
         };
 
         order.AddDomainEvent(new OrderCreatedEvent(order));
@@ -42,17 +42,15 @@ public class Order : Aggregate<OrderId>
         return order;
     }
 
-    public void Update(OrderId id, CustomerId customerId, OrderName orderName, Address shippingAddress, Address billingAddress, Payment payment)
+    public void Update(OrderName orderName, Address shippingAddress, Address billingAddress, Payment payment, OrderStatus status)
     {
-        var order = new Order
-        {
-            ShippingAddress = shippingAddress,
-            BillingAddress = billingAddress,
-            Payment = payment,
-            OrderStatus = OrderStatus.Pending
-        };
+        OrderName = orderName;
+        ShippingAddress = shippingAddress;
+        BillingAddress = billingAddress;
+        Payment = payment;
+        Status = status;
 
-        order.AddDomainEvent(new OrderUpdatedEvent(this));
+        AddDomainEvent(new OrderUpdatedEvent(this));
     }
 
     public void Add(ProductId productId, int quantity, decimal price)
