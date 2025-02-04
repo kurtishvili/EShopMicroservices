@@ -16,7 +16,7 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            options.AddInterceptors(interceptors: sp.GetService<ISaveChangesInterceptor>());
+            options.AddInterceptors(interceptors: sp.GetService<ISaveChangesInterceptor>() ?? throw new InvalidOperationException());
             options.UseSqlServer(connectionString);
         });
 

@@ -11,12 +11,12 @@ internal class GetOrdersHandler(IApplicationDbContext dbContext) : IQueryHandler
         var orders = await dbContext.Orders
             .Include(o => o.OrderItems)
             .OrderBy(o => o.OrderName.Value)
-            .Skip(query.paginationRequest.PageIndex * query.paginationRequest.PageSize)
-            .Take(query.paginationRequest.PageSize)
+            .Skip(query.PaginationRequest.PageIndex * query.PaginationRequest.PageSize)
+            .Take(query.PaginationRequest.PageSize)
             .ToListAsync(cancellationToken);
 
         var totalOrders = await dbContext.Orders.LongCountAsync(cancellationToken);
 
-        return new GetOrdersResult(new PaginatedResult<OrderDto>(query.paginationRequest.PageIndex, query.paginationRequest.PageSize, totalOrders, orders.ToOrderDtoList()));
+        return new GetOrdersResult(new PaginatedResult<OrderDto>(query.PaginationRequest.PageIndex, query.PaginationRequest.PageSize, totalOrders, orders.ToOrderDtoList()));
     }
 }
