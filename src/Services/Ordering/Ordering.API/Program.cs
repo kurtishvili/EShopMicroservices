@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // add services to the container
 
 builder.Services
-    .AddApplicationServices()
+    .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices();
 
@@ -18,7 +18,7 @@ var app = builder.Build();
 
 app.UseApiServices();
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     await app.InitialiseDatabaseAsync();
 }
