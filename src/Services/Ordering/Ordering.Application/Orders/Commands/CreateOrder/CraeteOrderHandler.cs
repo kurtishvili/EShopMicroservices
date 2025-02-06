@@ -20,7 +20,7 @@ public class CraeteOrderHandler(IApplicationDbContext dbContext)
             orderDto.ShippingAddress.LastName,
             orderDto.ShippingAddress.EmailAddress,
             orderDto.ShippingAddress.AddressLine,
-            orderDto.ShippingAddress.Coutry,
+            orderDto.ShippingAddress.Country,
             orderDto.ShippingAddress.State,
             orderDto.ShippingAddress.ZipCode);
 
@@ -29,7 +29,7 @@ public class CraeteOrderHandler(IApplicationDbContext dbContext)
             orderDto.BillingAddress.LastName,
             orderDto.BillingAddress.EmailAddress,
             orderDto.BillingAddress.AddressLine,
-            orderDto.BillingAddress.Coutry,
+            orderDto.BillingAddress.Country,
             orderDto.BillingAddress.State,
             orderDto.BillingAddress.ZipCode);
 

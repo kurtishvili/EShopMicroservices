@@ -27,7 +27,7 @@ internal class UpdateOrderHandler(IApplicationDbContext dbContext) : ICommandHan
             orderDto.ShippingAddress.LastName,
             orderDto.ShippingAddress.EmailAddress,
             orderDto.ShippingAddress.AddressLine,
-            orderDto.ShippingAddress.Coutry,
+            orderDto.ShippingAddress.Country,
             orderDto.ShippingAddress.State,
             orderDto.ShippingAddress.ZipCode);
 
@@ -36,7 +36,7 @@ internal class UpdateOrderHandler(IApplicationDbContext dbContext) : ICommandHan
             orderDto.BillingAddress.LastName,
             orderDto.BillingAddress.EmailAddress,
             orderDto.BillingAddress.AddressLine,
-            orderDto.BillingAddress.Coutry,
+            orderDto.BillingAddress.Country,
             orderDto.BillingAddress.State,
             orderDto.BillingAddress.ZipCode);
 
