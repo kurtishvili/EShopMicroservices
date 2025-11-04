@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Trigger CI test
 var services = builder.Services;
 
 var assemly = typeof(Program).Assembly;
