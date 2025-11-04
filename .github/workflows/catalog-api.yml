@@ -7,28 +7,35 @@ on:
   pull_request:
     paths:
       - src/Services/Catalog/**
+  workflow_dispatch: # Optional: allows manual triggering from GitHub UI
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/Services/Catalog
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup .NET
+    - name: Setup .NET 9.0
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0.x'
 
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
     - name: Restore dependencies
-      run: dotnet restore Catalog.API.csproj
+      run: dotnet restore src/Services/Catalog/Catalog.API.csproj
 
     - name: Build
-      run: dotnet build Catalog.API.csproj --no-restore --configuration Release
+      run: dotnet build src/Services/Catalog/Catalog.API.csproj --no-restore --configuration Release
 
     - name: Run tests
-      run: dotnet test Catalog.API.csproj --no-build --verbosity normal
+      run: dotnet test src/Services/Catalog/Catalog.API.csproj --no-build --verbosity normal
+      continue-on-error: false
