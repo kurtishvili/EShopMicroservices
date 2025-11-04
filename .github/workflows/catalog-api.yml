@@ -1,0 +1,34 @@
+name: CI - Catalog.API
+
+on:
+  push:
+    paths:
+      - src/Services/Catalog/**
+  pull_request:
+    paths:
+      - src/Services/Catalog/**
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/Services/Catalog
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore Catalog.API.csproj
+
+    - name: Build
+      run: dotnet build Catalog.API.csproj --no-restore --configuration Release
+
+    - name: Run tests
+      run: dotnet test Catalog.API.csproj --no-build --verbosity normal
