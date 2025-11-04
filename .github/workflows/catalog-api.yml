@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - src/Services/Catalog/**
-  workflow_dispatch: # Optional: allows manual triggering from GitHub UI
+  workflow_dispatch:
 
 jobs:
   build-and-test:
@@ -31,11 +31,10 @@ jobs:
           ${{ runner.os }}-nuget-
 
     - name: Restore dependencies
-      run: dotnet restore src/Services/Catalog/Catalog.API.csproj
+      run: dotnet restore src/Services/Catalog/Catalog.API/Catalog.API.csproj
 
     - name: Build
-      run: dotnet build src/Services/Catalog/Catalog.API.csproj --no-restore --configuration Release
+      run: dotnet build src/Services/Catalog/Catalog.API/Catalog.API.csproj --no-restore --configuration Release
 
     - name: Run tests
-      run: dotnet test src/Services/Catalog/Catalog.API.csproj --no-build --verbosity normal
-      continue-on-error: false
+      run: dotnet test src/Services/Catalog/Catalog.API/Catalog.API.csproj --no-build --verbosity normal
