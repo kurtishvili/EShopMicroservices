@@ -38,3 +38,11 @@ jobs:
 
     - name: Run tests
       run: dotnet test src/Services/Catalog/Catalog.API/Catalog.API.csproj --no-build --verbosity normal
+    - name: Publish Catalog.API
+      run: dotnet publish src/Services/Catalog/Catalog.API/Catalog.API.csproj --configuration Release --output ./publish
+
+    - name: Upload published artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: catalog-api
+        path: ./publish
